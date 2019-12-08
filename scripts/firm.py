@@ -6,15 +6,15 @@ def get_r(L, K, alpha, A, g_y, delta):
     '''
     The interest rate implied by the firm FOC for the choice of capital
     '''
-    r = alpha * A * (math.exp(g_y * t))**(1-alpha) * (L/K)**(1-alpha) - delta
+    r = alpha * A * (math.exp(g_y * s))**(1-alpha) * (L/K)**(1-alpha) - delta
 
     return r
 
 
-def get_w(r, alpha, A, delta):
+def get_w(r, alpha, A, g_y, delta):
     '''
-    The wage rate implied by the interest rate
+    The wage rate implied by the firm FOC for the choice of labor
     '''
-    w = ((1 - alpha) * A * (K/L)**(alpha) * math.exp(g_y * t)
+    w = (1 - alpha) * A * (K/L)**(alpha) * (math.exp(g_y * t))**(1-alpha)
 
     return w
