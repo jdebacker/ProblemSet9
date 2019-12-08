@@ -31,7 +31,7 @@ def get_c(r, w, n, b_s, b_sp1):
     return c
 
 
-def u_prime(c, sigma):
+def mu_cons(c, sigma):
     '''
     Marginal utility of consumption
     '''
