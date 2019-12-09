@@ -9,7 +9,7 @@ def solve_ss(r_init, w_init, params):
     '''
     Solves for the steady-state equlibrium of the OG model
     '''
-    beta, sigma, n, alpha, A, delta, xi, g_y = params
+    beta, sigma, n, alpha, A, delta, xi = params
     ss_dist = 7.0
     ss_tol = 1e-8
     ss_iter = 0
