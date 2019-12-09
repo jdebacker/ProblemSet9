@@ -35,7 +35,7 @@ def FOCs(b_sp1, n_s, *args):
     # First get the Euler equations defined by Equation (4.10) - S-1 of these
     lhs_euler_b = mu_c
     rhs_euler_b = beta * (1+r) * mu_c
-    foc_errors_b = lhs_euler[:-1] - rhs_euler[1:]    
+    foc_errors_b = lhs_euler_b[:-1] - rhs_euler_b[1:]    
     # The above line doesn't need to be changed since it works for a general S as well (writing out the vectors helps to see this)
 
     # Next get the Euler equations defined by (4.9) - S of these
@@ -69,7 +69,7 @@ def mu_cons(c, sigma):
 
     return mu_c
 
-def mu_labor(n, chi, *args, b_sp1):
+def mu_labor(n, chi, *args):
     '''
     Computes marginal utility with respect to labor supply
     '''
