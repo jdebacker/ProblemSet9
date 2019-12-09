@@ -1,0 +1,12 @@
+To compile the pdf, open ProblemSet9.tex
+
+The name of the files defined in this file are as follows:
+
+   - Interest rate path: "r.png"
+   - Wage path: "w.png"
+   - Capital stock: "capital.png"
+   - Labor supply: "labor.png"
+   - Lifecycle profiles (all together): scl.png
+
+"Structure.tex" only defines required compilation format
+for the ingredients of "ProblemSet9". Leave it in the same directory.
