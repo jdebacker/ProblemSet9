@@ -1,18 +1,27 @@
 # firm functions
+def get_Y (L, K, alpha, A, g_y, t):
+    '''
+    Updated based on eqn 8.14 
+    '''
+    import math
+    
+    Y = A * (K ** alpha) * (math.exp(g_y * t) * L) ** (1 - alpha)
 
-def get_r(L, K, alpha, A, delta):
+    return Y
+    
+def get_r(Y, K, alpha, delta):
     '''
-    The interest rate implied by the firm FOC for the choice of capital
+    Updated based on eqn 8.16 
     '''
-    r = alpha * A * (L / K) ** (1 - alpha) - delta
+    r = alpha * (Y / K) - delta
 
     return r
 
 
-def get_w(r, alpha, A, delta):
+def get_w(Y, alpha, L):
     '''
-    The wage rate implied by the firm FOC for the choice of labor
+    Updated based on eqn 8.17
     '''
-    w = (1 - alpha) * A * (K/L)**alpha
+    w = (1 - alpha) * (Y / L)
 
     return w
