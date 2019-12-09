@@ -1,0 +1,79 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lachaise Assignment
+% LaTeX Template
+% Version 1.0 (26/6/2018)
+%
+% This template originates from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Marion Lachaise & François Févotte
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\input{structure.tex} % Include the file specifying the document structure and custom commands
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Problem Set \#8} % Title of the assignment
+
+\author{Saharnaz Babaei\\ \texttt{saharnaz.babaei@grad.moore.sc.edu}} % Author name and email address
+
+\date{ECON815 --- \today} % University, school and/or department name(s) and a date
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+
+\section*{Capital and debt path} % Unnumbered section
+
+Using the initial values and equations from Guimaraes (2007), I got the following figures. The results are different from that paper! It seems that for this economy (with the calibrated initial values), the debt should decrease to an stationary value which is about 51\% debt to GDP ratio (close to what Guimaraes (2007) suggests); Calculated by a ratio of debt (d) (77\%) in figure \ref{debt} to the GDP value (1.5) in figure \ref{fk}. I say almost and cannot express the exact amount because in my graphs, value function and policy function do not seem to be reached to a stationary state which can be due to the iteration numbers (I chose 10000). I could not solve for the stationary initial values by hand to improve it and I require higher number of iterations which I could not get the solution in time. 
+
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[height=10cm]{capital.png}
+		\caption{Capital path}
+		\label{capital}
+	\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[height=10cm]{debt.png}
+		\caption{Debt path}
+		\label{debt}
+	\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[height=10cm]{fk.png}
+		\caption{Growth}
+		\label{fk}
+	\end{center}
+\end{figure}
+
+%----------------------------------------------------------------------------------------
+
+\section*{References}
+Guimaraes, Bernardo. "Optimal external debt and default." (2007)
+
+\end{document}
