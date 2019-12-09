@@ -1,5 +1,4 @@
 import numpy as np
-import elliptical_u_est
 # household functions
 
 
@@ -39,7 +38,7 @@ def mu_cons(c, sigma):
     return mu_c
 
 
-def mu_labor(n, chi, *args, b_sp1):
+def mu_labor(n, chi, theta, l_tilde, b_ellip, nu, *args, b_sp1):
     '''
     Use FOC's for disutilitity of labor to get labor supply
 
@@ -56,10 +55,10 @@ def mu_labor(n, chi, *args, b_sp1):
 
     '''
 
-    theta = 0.9  # frisch elasticity of labor
-    l_tilde = 1.0  # Maximum labor supply
+    # theta = 0.9  # frisch elasticity of labor
+    # l_tilde = 1.0  # Maximum labor supply
 
-    b, nu = elliptical_u_est.estimation(theta, l_tilde)
+    # b_ellip, nu = elliptical_u_est.estimation(theta, l_tilde)
     beta, sigma, r, w, n, b_init = args
     b_s = np.append(b_init, b_sp1)
     b_sp1 = np.append(b_sp1, 0.0)
@@ -67,7 +66,7 @@ def mu_labor(n, chi, *args, b_sp1):
     mu_c = mu_cons(c, sigma)
 
     lhs = w * mu_c
-    rhs = chi * (b / l_tilde) * (n / l_tilde) ** (nu - 1)
+    rhs = chi * (b_ellip / l_tilde) * (n / l_tilde) ** (nu - 1)
     * (1 - (n / l_tilde) ** nu) ** ((1 - nu) / nu)
     foc_errors = lhs - rhs
 
