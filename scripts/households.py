@@ -13,7 +13,7 @@ def FOCs(b_sp1, *args):
     b_s = np.append(b_init, b_sp1)
     b_sp1 = np.append(b_sp1, 0.0)
     c = get_c(r, w, n, b_s, b_sp1)
-    mu_c = u_prime(c, sigma)
+    mu_c = mu_cons(c, sigma)
     lhs_euler = mu_c
     rhs_euler = beta * (1+r) * mu_c
     foc_errors = lhs_euler[:-1] - rhs_euler[1:]
@@ -64,7 +64,7 @@ def mu_labor(n, chi, *args, b_sp1):
     b_s = np.append(b_init, b_sp1)
     b_sp1 = np.append(b_sp1, 0.0)
     c = get_c(r, w, n, b_s, b_sp1)
-    mu_c = u_prime(c, sigma)
+    mu_c = mu_cons(c, sigma)
 
     lhs = w * mu_c
     rhs = chi * (b / l_tilde) * (n / l_tilde) ** (nu - 1)
