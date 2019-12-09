@@ -13,6 +13,6 @@ def get_w(r, alpha, A, delta):
     '''
     The wage rate implied by the firm FOC for the choice of labor
     '''
-    w = ((1 - alpha) * A * (K/L)**alpha
+    w = (1 - alpha) * A * (K/L)**alpha
 
     return w
