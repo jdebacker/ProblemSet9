@@ -18,10 +18,13 @@ def solve_ss(r_init, w_init, params):
     w = w_init
     while (ss_dist > ss_tol) & (ss_iter < ss_max_iter):
         # solve HH problem
-        foc_args = (beta, sigma, r, w, n, 0.0)
-        b_sp1_guess = [0.05, 0.05]
-        result = opt.root(hh.FOCs, b_sp1_guess, args=foc_args)
-        b_sp1 = result.x
+        foc_args = (beta, sigma, r, w, 0.0)
+        n_s_guess = np.ones(S)
+        b_sp1_guess = np.ones(S-1) * 0.5
+        HH_guess = np.append(b_sp1_guess, n_s_guess)
+        result = opt.root(hh.FOCs, HH_guess, args=foc_args)
+        b_sp1 = result.x[0: S-1]
+        n_s = result.x[S-1:]
         euler_errors = result.fun
         b_s = np.append(0.0, b_sp1)
         # use market clearing
