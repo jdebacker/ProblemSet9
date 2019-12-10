@@ -1,8 +1,9 @@
 # import packages
 import numpy as np
 import matplotlib.pyplot as plt
-import SS
-import TPI
+import demographics as demog
+# import SS
+# import TPI
 
 # model parameters
 S = int(40)
@@ -29,7 +30,13 @@ start_year = 2013
 pop_graphs = False
 (omega_path_S, imm_rates_path, rho_s, omega_SS, surv_rates_S, g_n_path,
     g_n_SS, omega_S_preTP) = demog.get_pop_objs(E, S, T, min_age, max_age, start_year, pop_graphs)
-imm_rates_SS = imm_rates_path[-1, :]
+# imm_rates_SS = imm_rates_path[-1, :]
+
+# rho_s and omega_SS are S length vectors. I presume we're not interested in the last element here. Can someone please confirm?
+# imm_rates_SS is a scalar - can whoever worked on this please look into this in more detail? I'm unsure of what you've done
+
+print('Length of rho_s = ', len(rho_s), '. Length of omega_SS = ', len(omega_SS))
+
 
 # Economic growth
 g_y = 0.02
