@@ -1,3 +1,10 @@
+'''
+Can someone please take a look at this function and make sure that this accounts for everything in the household's problem?
+I believe this script does account for S-periods, endogenous labor supply, and population dynamics.
+From what I can tell, the only factor that needs to be added to account for population dynamics is rho_s, which has 
+been added. 
+'''
+
 import numpy as np
 import elliptical_u_est as ellip
 
@@ -18,6 +25,7 @@ def FOCs(b_sp1, n_s, *args):
     l_tilde: maximum amount of labor supply
     chi: scale parameter
     theta: Frisch elasticity of labor supply
+    rho_s: risk that someone alive at age-s will die at the end of that period and not be alive for age s+1
     
     n is not contained in the remaining arguments anymore. If someone decides to change this, please provide detailed documentation
     on why you are doing so.
@@ -27,7 +35,7 @@ def FOCs(b_sp1, n_s, *args):
     foc_errors: A list where the first S-1 values are b2, b3, ..., bS, and the next S values are n1, n2, ..., nS.
     '''
 
-    beta, sigma, r, w, b_init, l_tilde, chi, theta = args
+    beta, sigma, r, w, b_init, l_tilde, chi, theta, rho_s = args
     b_s = np.append(b_init, b_sp1)  # When working on SS.py, note that b_sp1_guess is now of length S-1
     b_sp1 = np.append(b_sp1, 0.0)
     c = get_c(r, w, n_s, b_s, b_sp1)
@@ -36,7 +44,7 @@ def FOCs(b_sp1, n_s, *args):
     
     # First get the Euler equations defined by Equation (4.10) - S-1 of these
     lhs_euler_b = mu_c
-    rhs_euler_b = beta * (1+r) * mu_c
+    rhs_euler_b = beta * (1+r) * (1 - rho_s[:-1]) * mu_c # Note that the * operator is going to give us the element-wise product, which is what we want
     foc_errors_b = lhs_euler_b[:-1] - rhs_euler_b[1:]    
     # The above line doesn't need to be changed since it works for a general S as well (writing out the vectors helps to see this)
 
@@ -76,7 +84,7 @@ def mu_labor(n_s, l_tilde, chi, theta):
     Computes marginal utility with respect to labor supply
     '''
 
-    b_ellipse, nu = ellip.estimation(theta, l_tilde) # b_ellipse is the constant defined in Equation (4.9) - has nothing to do with savings
-    mu_n = chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (nu - 1) * (1 - (n_s / l_tilde) ** nu) ** ((1 - nu) / nu )
+    b_ellipse, upsilon = ellip.estimation(theta, l_tilde) # b_ellipse is the constant defined in Equation (4.9) - has nothing to do with savings
+    mu_n = chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (upsilon - 1) * (1 - (n_s / l_tilde) ** upsilon) ** ((1 - upsilon) / upsilon )
 
     return mu_n
