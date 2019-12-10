@@ -4,32 +4,32 @@ import matplotlib.pyplot as plt
 import SS
 import TPI
 
-# model parameters
-S = int(40)
-E = 20
-T = 4 * S
-annual_beta = 0.9
-beta = annual_beta ** (40 / S)
-sigma = 3.0
-chi_n = 1.0 * np.ones(S)
-l_tilde = 1.0   # per period endowment for agent
-b_s = 0.6
-upsilon = 1.5
+# set model parameters
+sigma = 1.5  # CRRA
+beta = 0.8  # discount rate
+alpha = 0.3   # capital share of output
+delta = 0.1  # rate of depreciation
+A = 1.0  # TFP
+T = 20  # number of periods until SS
 
-# Firm 
-A = 1.0
-annual_delta = 0.05
-delta = 1 - ((1 - annual_delta) ** (40 / S))
-alpha = 0.5
+# parameter for convergence of GE loop
+xi = 0.1
 
-# Population
-min_age = 1
-max_age = 100
-start_year = 2013
-pop_graphs = False
-(omega_path_S, imm_rates_path, rho_s, omega_SS, surv_rates_S, g_n_path,
-    g_n_SS, omega_S_preTP) = demog.get_pop_objs(E, S, T, min_age, max_age, start_year, pop_graphs)
-imm_rates_SS = imm_rates_path[-1, :]
+# Solving for SS
+'''
+Provided a guess of w = 0.05. Request to cross check if there is 
+any better guess that can be used
 
-# Economic growth
-g_y = 0.02
+We still need to add the TPI file and then update its execution here
+'''
+
+ss_params = (beta, sigma, alpha, A, delta, xi)
+r_init = 1 / beta - 1
+w_init = 0.5 # Not sure if there is a possible way to guess
+r_ss, w_ss, b_sp1_ss, euler_errors_ss = SS.solve_ss(r_init, w_init, ss_params)
+print('SS interest rate is ', r_ss)
+print ('SS wage rate is ', w_ss)
+print('Maximum Euler error in the SS is ',
+      np.absolute(euler_errors_ss).max())
+
+
