@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import demographics as demog
-# import SS
+import SS
 # import TPI
 
 # model parameters
@@ -13,11 +13,14 @@ annual_beta = 0.9
 beta = annual_beta ** (40 / S)
 sigma = 3.0
 chi_n = 1.0 * np.ones(S)
-l_tilde = 1.0   # per period endowment for agent
+l_tilde = 1.0   # per period endowment for agent/ maximum labor supply
 b_s = 0.6
 upsilon = 1.5
+theta = 0.9  # frisch elasticity of labor
+# get estimated b and upsilon from ellipitical utility function
+b_ellip, upsilon = elliptical_u_est.estimation(theta, l_tilde)
 
-# Firm 
+# Firm
 A = 1.0
 annual_delta = 0.05
 delta = 1 - ((1 - annual_delta) ** (40 / S))
@@ -28,15 +31,21 @@ min_age = 1
 max_age = 100
 start_year = 2013
 pop_graphs = False
-(omega_path_S, imm_rates_path, rho_s, omega_SS, surv_rates_S, g_n_path,
-    g_n_SS, omega_S_preTP) = demog.get_pop_objs(E, S, T, min_age, max_age, start_year, pop_graphs)
+# Get the immigration rates for every period
+imm_rates_SS = demog.get_imm_resid(E+S, min_age, max_age, pop_graphs)
+
+# Get population objects
+(omega_path_S, g_n_SS, omega_SS, surv_rates_S, mort_rates_S, g_n_path,
+ imm_rates_mat, omega_S_preTP) = demog.get_pop_objs(E, S, T, min_age,
+                                                    max_age, start_year,
+                                                    pop_graphs)
 # imm_rates_SS = imm_rates_path[-1, :]
 
-# rho_s and omega_SS are S length vectors. I presume we're not interested in the last element here. Can someone please confirm?
-# imm_rates_SS is a scalar - can whoever worked on this please look into this in more detail? I'm unsure of what you've done
-
-print('Length of rho_s = ', len(rho_s), '. Length of omega_SS = ', len(omega_SS), '. Length of imm_rates_path = ', len(imm_rates_path))
-
+# Solve the SS
+r_init = 1 / beta - 1
+xi = 0.1
+ss_params = (beta, sigma, alpha, A, delta, xi, omega_SS, imm_rates_SS, S)
+r_ss, b_sp1_ss, euler_errors_ss = SS.solve_ss(r_init, ss_params)
 
 # Economic growth
 g_y = 0.02
