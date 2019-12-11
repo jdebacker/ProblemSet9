@@ -13,6 +13,7 @@ def FOCs(b_sp1, n_s, *args):
     Refer to equations (4.9) and (4.10) of chapter 4 for details on where the
     variables foc_errors_b and foc_errors_n are coming from
 
+
     Args:
     b_sp1: The savings values for each period. The call to this function should
            provide initial guesses for this variable.
@@ -68,7 +69,6 @@ def get_c(r, w, n, b_s, b_sp1):
 def mu_cons(c, sigma):
     '''
     Computes marginal utility with respect to consumption.
-
     Please note that this was initially called u_prime. If anyone finds function
     calls on u_prime, please change it to mu_cons (Marginal utility of consumption)
     '''
