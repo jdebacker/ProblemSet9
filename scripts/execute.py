@@ -1,9 +1,9 @@
 # import packages
 import numpy as np
 # import matplotlib.pyplot as plt
-import SS
-import TPI
 import demographics as demog
+import SS
+# import TPI
 import elliptical_u_est
 
 # model parameters
@@ -32,10 +32,20 @@ min_age = 1
 max_age = 100
 start_year = 2013
 pop_graphs = False
+# Get the immigration rates for every period
+imm_rates_SS = demog.get_imm_resid(E+S, min_age, max_age, pop_graphs)
+
+# Get population objects
 (omega_path_S, imm_rates_path, rho_s, omega_SS, surv_rates_S, g_n_path,
     g_n_SS, omega_S_preTP) = demog.get_pop_objs(E, S, T, min_age, max_age,
                                                 start_year, pop_graphs)
-imm_rates_SS = imm_rates_path[-1, :]
+# imm_rates_SS = imm_rates_path[-1, :]
+
+# Solve the SS
+r_init = 1 / beta - 1
+xi = 0.1
+ss_params = (beta, sigma, alpha, A, delta, xi, omega_SS, imm_rates_SS, S)
+r_ss, b_sp1_ss, euler_errors_ss = SS.solve_ss(r_init, ss_params)
 
 # Economic growth
 g_y = 0.02
