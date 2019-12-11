@@ -1,8 +1,7 @@
 '''
 Can someone please take a look at this function and make sure that this accounts for everything in the household's problem?
 I believe this script does account for S-periods, endogenous labor supply, and population dynamics.
-From what I can tell, the only factor that needs to be added to account for population dynamics is rho_s, which has 
-been added. 
+From what I can tell, the only factor that needs to be added to account for population dynamics is rho_s, which has been added.
 '''
 
 import numpy as np
@@ -51,8 +50,7 @@ def FOCs(b_sp1, n_s, *args):
     lhs_euler_b = mu_c
     rhs_euler_b = beta * (1+r) * mu_c
     foc_errors_b = lhs_euler_b[:-1] - rhs_euler_b[1:]
-    # The above line doesn't need to be changed since it works for a general S
-    # as well (writing out the vectors helps to see this)
+    # The above line doesn't need to be changed since it works for a general S as well (writing out the vectors helps to see this)
 
     # Next get the Euler equations defined by (4.9) - S of these
     lhs_euler_n = w * mu_c
