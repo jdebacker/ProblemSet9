@@ -10,11 +10,14 @@ def FOCs(b_sp1, n_s, *args):
     Note that we were dealing with three dimensional vectors earlier. We now have an S-1 dim vector corresponding
     to b, and an S dim vector corresponding to n.
 
-    Refer to equations (4.9) and (4.10) of chapter 4 for details on where the variables foc_errors_b and foc_errors_n are coming from
+    Refer to equations (4.9) and (4.10) of chapter 4 for details on where the
+    variables foc_errors_b and foc_errors_n are coming from
 
     Args:
-    b_sp1: The savings values for each period. The call to this function should provide initial guesses for this variable.
-    n_s: The labor supply values for each period. The call to this function should provide initial guesses for this variable.
+    b_sp1: The savings values for each period. The call to this function should
+           provide initial guesses for this variable.
+    n_s: The labor supply values for each period. The call to this function should
+         provide initial guesses for this variable.
     l_tilde: maximum amount of labor supply
     chi: scale parameter
     theta: Frisch elasticity of labor supply
@@ -24,11 +27,13 @@ def FOCs(b_sp1, n_s, *args):
 
 
     Returns:
-    foc_errors: A list where the first S-1 values are b2, b3, ..., bS, and the next S values are n1, n2, ..., nS.
+    foc_errors: A list where the first S-1 values are b2, b3, ..., bS, and
+    the next S values are n1, n2, ..., nS.
     '''
 
     beta, sigma, r, w, b_init, l_tilde, chi, theta = args
-    b_s = np.append(b_init, b_sp1)  # When working on SS.py, note that b_sp1_guess is now of length S-1
+    b_s = np.append(b_init, b_sp1)  # When working on SS.py, note that
+                                    # b_sp1_guess is now of length S-1
     b_sp1 = np.append(b_sp1, 0.0)
     c = get_c(r, w, n_s, b_s, b_sp1)
     mu_c = mu_cons(c, sigma)
@@ -64,8 +69,8 @@ def mu_cons(c, sigma):
     '''
     Computes marginal utility with respect to consumption.
 
-    Please note that this was initially called u_prime. If anyone finds function calls on u_prime, please change it to mu_cons
-    Marginal utility of consumption
+    Please note that this was initially called u_prime. If anyone finds function
+    calls on u_prime, please change it to mu_cons (Marginal utility of consumption)
     '''
     mu_c = c ** -sigma
 
@@ -76,7 +81,9 @@ def mu_labor(n_s, l_tilde, chi, theta):
     Computes marginal utility with respect to labor supply
     '''
 
-    b_ellipse, nu = ellip.estimation(theta, l_tilde) # b_ellipse is the constant defined in Equation (4.9) - has nothing to do with savings
-    mu_n = chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (nu - 1) * (1 - (n_s / l_tilde) ** nu) ** ((1 - nu) / nu )
+    b_ellipse, nu = ellip.estimation(theta, l_tilde)
+    # b_ellipse is the constant defined in Equation (4.9) - has nothing to do with savings
+    mu_n = chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (nu - 1) * (\
+                                 1 - (n_s / l_tilde) ** nu) ** ((1 - nu) / nu )
 
     return mu_n
