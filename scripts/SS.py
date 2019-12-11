@@ -9,7 +9,7 @@ def solve_ss(r_init, w_init, params):
     '''
     Solves for the steady-state equlibrium of the OG model
     '''
-    beta, sigma, n, alpha, A, delta, xi = params
+    beta, sigma, alpha, A, delta, xi = params # Removed n as a parameter since that obtained from household FOC
     ss_dist = 7.0
     ss_tol = 1e-8
     ss_iter = 0
@@ -28,7 +28,7 @@ def solve_ss(r_init, w_init, params):
         euler_errors = result.fun
         b_s = np.append(0.0, b_sp1)
         # use market clearing
-        L = agg.get_L(n)
+        L = agg.get_L(n_s) # Updated from n to n_s
         K = agg.get_K(b_s)
         # find implied r
         r_prime = firm.get_r(L, K, alpha, A, delta)
