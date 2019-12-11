@@ -35,7 +35,7 @@ pop_graphs = False
 # rho_s and omega_SS are S length vectors. I presume we're not interested in the last element here. Can someone please confirm?
 # imm_rates_SS is a scalar - can whoever worked on this please look into this in more detail? I'm unsure of what you've done
 
-print('Length of rho_s = ', len(rho_s), '. Length of omega_SS = ', len(omega_SS))
+print('Length of rho_s = ', len(rho_s), '. Length of omega_SS = ', len(omega_SS), '. Length of imm_rates_path = ', len(imm_rates_path))
 
 
 # Economic growth
