@@ -36,12 +36,10 @@ pop_graphs = False
 imm_rates_SS = demog.get_imm_resid(E+S, min_age, max_age, pop_graphs)
 
 # Get population objects
-(omega_path_S, g_n_SS, omega_SS, surv_rates_S, surv_rates,
-    mort_rates_S, g_n_path, omega_S_preTP) = demog.get_pop_objs(E, S, T,
-                                                                min_age,
-                                                                max_age,
-                                                                start_year,
-                                                                pop_graphs)
+(omega_path_S, g_n_SS, omega_SS, surv_rates_S, mort_rates_S, g_n_path,
+ imm_rates_mat, omega_S_preTP) = demog.get_pop_objs(E, S, T, min_age,
+                                                    max_age, start_year,
+                                                    pop_graphs)
 # imm_rates_SS = imm_rates_path[-1, :]
 
 # Solve the SS
