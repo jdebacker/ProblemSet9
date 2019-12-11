@@ -1,10 +1,9 @@
 # import packages
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import demographics as demog
 import SS
 # import TPI
-import elliptical_u_est
 
 # model parameters
 S = int(40)
