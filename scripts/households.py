@@ -10,8 +10,12 @@ def FOCs(b_sp1, n_s, *args):
     variable b, and the labor supply variable note. Note that we were dealing
     with three dimensional vectors earlier. We now have an S-1 dim vector
     corresponding to b, and a S dim vector corresponding to n.
+
+
     Refer to equations (4.9) and (4.10) of chapter 4 for details on where the
     variables foc_errors_b and foc_errors_n are coming from
+
+
     Args:
     b_sp1: The savings values for each period. The call to this function should
            provide initial guesses for this variable.
@@ -20,8 +24,10 @@ def FOCs(b_sp1, n_s, *args):
     l_tilde: maximum amount of labor supply
     chi: scale parameter
     theta: Frisch elasticity of labor supply
+
     n is not contained in the remaining arguments anymore. If someone decides
     to change this, please provide detailed documentation on why you are doing so.
+
     Returns:
     foc_errors: A list where the first S-1 values are b2, b3, ..., bS, and
     the next S values are n1, n2, ..., nS.
