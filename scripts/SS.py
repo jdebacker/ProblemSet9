@@ -19,6 +19,7 @@ def solve_ss(r_init, w_init, params):
     # Why do we need w as well? Are we not going to get it by providing r_init to firm.get_w()?
     # I think Jason said this too and I'm going to stick to what we did in class.
     while (ss_dist > ss_tol) & (ss_iter < ss_max_iter):
+        
         # get w
         w = firm.get_w(r, alpha, A, delta)
         # solve HH problem

@@ -26,7 +26,6 @@ def FOCs(b_sp1, n_s, *args):
     chi: scale parameter
     theta: Frisch elasticity of labor supply
     rho_s: risk that someone alive at age-s will die at the end of that period and not be alive for age s+1
-    
     n is not contained in the remaining arguments anymore. If someone decides to change this, please provide detailed documentation
     on why you are doing so.
 
@@ -59,11 +58,11 @@ def FOCs(b_sp1, n_s, *args):
 
 
 
-def get_c(r, w, n, b_s, b_sp1):
+def get_c(r, w, n_s, b_s, b_sp1):
     '''
     Use the budget constraint to solve for consumption
     '''
-    c = w * n + (1 + r) * b_s - b_sp1
+    c = w * n_s + (1 + r) * b_s - b_sp1
 
     return c
 
@@ -85,6 +84,7 @@ def mu_labor(n_s, l_tilde, chi, theta):
     '''
 
     b_ellipse, upsilon = ellip.estimation(theta, l_tilde) # b_ellipse is the constant defined in Equation (4.9) - has nothing to do with savings
-    mu_n = chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (upsilon - 1) * (1 - (n_s / l_tilde) ** upsilon) ** ((1 - upsilon) / upsilon )
+    mu_n = chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (upsilon - 1) * (1 -
+     (n_s / l_tilde) ** upsilon) ** ((1 - upsilon) / upsilon )
 
     return mu_n
