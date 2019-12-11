@@ -12,13 +12,16 @@ def get_L(n_s, omega_SS):
 
     return L
 
-def get_K(b_s, omega_SS, imm_rates_SS):
+def get_K(b_s, *params):
     '''
     b = vector of savings of length S - 1
 
     Returns capital (a scalar)
     '''
-    K = (omega_SS[:-1] * b_s + imm_rates_SS[1:] * omega_SS[1:] * b_s).sum()
+
+    (g_n_SS, omega_SS, imm_rates_SS) = params
+    K = ((1 / (1 + g_n_SS)) * (omega_SS[:-1] * b_s + imm_rates_SS[1:] *
+                               omega_SS[1:] * b_s).sum())
 
     return K
 
@@ -28,9 +31,9 @@ def get_C(c, omega_SS):
 
     return C
 
-def get_I(K, K_sp1, delta):
+def get_I(K, K_sp1, delta, g_n_SS):
     # Need to think about how we're getting Kp1 - something analogous to what we did for b_sp_1 in class I presume
-    I = K_sp1 - (1 - delta) * K
+    I = ((1 + g_n_SS) * K_sp1) - ((1 - delta) * K)
     return I
 
 
