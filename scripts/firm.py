@@ -1,3 +1,5 @@
+# Since we're not considering g_y, the expressions for r_t and w_t remain unchanged from what we did in class.
+
 # firm functions
 
 def get_r(L, K, alpha, A, delta):
@@ -11,8 +13,9 @@ def get_r(L, K, alpha, A, delta):
 
 def get_w(r, alpha, A, delta):
     '''
-    The wage rate implied by the firm FOC for the choice of labor
+    The wage rate implied by the interest rate
     '''
-    w = (1 - alpha) * A * (K/L)**alpha
+    w = ((1 - alpha) * A * ((r + delta) / (alpha * A)) **
+         (alpha / (alpha - 1)))
 
     return w
