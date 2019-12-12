@@ -13,6 +13,7 @@ import elliptical_u_est as ellip
 
 
 # household functions
+# FOC for savings
 def FOC_save(b_sp1, *params):
     # def FOCs(b_sp1, n_s, *args):
     '''
@@ -63,7 +64,23 @@ def FOC_save(b_sp1, *params):
     return foc_errors_b
 
 
+# FOC for labor
 def FOC_labor(n_s, *args):
+    '''
+    Args:
+    n_s: The labor supply values for each period. The call to this function
+            should provide initial guesses for this variable.
+    BQ_path: path of bequests
+    rho_s: risk that someone alive at age-s will die at the end of that period
+        and not be alive for age s+1
+    l_tilde: maximum amount of labor supply
+    chi: scale parameter
+    theta: Frisch elasticity of labor supply
+
+
+    Returns:
+    foc_errors_n: A list of n2, n3, ..., nS
+    '''
     beta, sigma, r, w, b_init, b_sp1, l_tilde, chi, theta, rho_s = args
     # When working on SS.py, note that b_sp1_guess is now of length S-1
     b_s = np.append(b_init, b_sp1)
@@ -85,6 +102,20 @@ def FOC_labor(n_s, *args):
     foc_errors_n = lhs_euler_n - rhs_euler_n
 
     return foc_errors_n
+
+
+# Solve FOC_save and FOC_labor
+def FOCs(b_sp1, n_s, *args):
+    BQpath, rho_s, beta, sigma, b_init, n, rpath, w = args
+    b_s = np.append(b_init, b_sp1)
+    b_sp1 = np.append(b_sp1, 0.0)
+
+    c = get_c(rpath[0], w, n_s, b_s, b_sp1)
+    b_errors = FOC_save(c, args)
+    n_errors = FOC_labor(c, args)
+    errors = np.append(b_errors, n_errors)
+
+    return(errors)
 
 
 def get_c(r, w, n_s, b_s, b_sp1):
