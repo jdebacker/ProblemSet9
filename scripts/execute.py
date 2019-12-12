@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import demographics as demog
 import SS
-# import TPI
+import TPI
 
 # model parameters
 S = int(40)
@@ -46,6 +46,25 @@ r_init = 1 / beta - 1
 xi = 0.1
 ss_params = (beta, sigma, alpha, A, delta, xi, omega_SS, imm_rates_SS, S)
 r_ss, b_sp1_ss, euler_errors_ss = SS.solve_ss(r_init, ss_params)
+print('SS interest rate is', r_ss)
+print('Maximum Euler error in the SS is', np.absolute(euler_errors_ss).max())
 
 # Economic growth
 g_y = 0.02
+
+# Solve time path
+b_11 = 1.1 * b_ss
+BQpath_init = np.zeros(T + S - 1)
+Kpath_init = np.zeros(T + S -1)
+r_path_init = np.ones(S-1)
+tpi_params = (b_ss, r_11, T, S)
+new_Kpath = TPI.solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, tpi_params).get(new_Kpath)
+new_BQpath = TPI.solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, tpi_params).get(new_BQpath)
+
+plt.plot(np.arange(S - 1), new_Kpath)
+plt.title("Path of capital")
+plt.show
+
+plt.plot(np.arange(S - 1), new_BQpath)
+plt.title("Path of Bequests")
+plt.show
