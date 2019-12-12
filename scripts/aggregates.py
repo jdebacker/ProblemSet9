@@ -46,7 +46,7 @@ def get_Y(b_s, C, I, omega_SS, imm_rates_SS):
     return Y
 
 
-def get_BQ(b_s, r, params):
+def get_BQ(b_s, r, *params):
     (omega_SS, rho_s) = params
     BQ = (1 + r) * (rho_s[:-1] * omega_SS[:-1] * b_s).sum()
 

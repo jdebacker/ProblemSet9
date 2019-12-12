@@ -12,7 +12,7 @@ def get_r(L, K, alpha, A, delta):
     return r
 
 
-def get_w(L, K, alpha, A, delta):
+def get_w(r, alpha, A, delta):
     '''
     The wage rate implied by the interest rate
     '''
