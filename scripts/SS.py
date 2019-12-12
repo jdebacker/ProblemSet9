@@ -5,7 +5,7 @@ import aggregates as agg
 import households as hh
 
 
-def solve_ss(r_init, w_init, params):
+def solve_ss(r_init, params):
     '''
     Solves for the steady-state equlibrium of the OG model
     '''
@@ -47,8 +47,7 @@ def solve_ss(r_init, w_init, params):
               ', r = ', r, ', w = ', w)
         # update r
         r = xi * r_prime + (1 - xi) * r
-        # update w
-        w = xi * w_prime + (1 - xi) * w
+ 
         # update iteration counter
         ss_iter += 1
 
