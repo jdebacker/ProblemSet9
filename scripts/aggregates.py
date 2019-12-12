@@ -20,8 +20,7 @@ def get_K(b_s, *params):
     '''
 
     (g_n_SS, omega_SS, imm_rates_SS) = params
-    K = ((1 / (1 + g_n_SS)) * (omega_SS[:-1] * b_s + imm_rates_SS[1:] *
-                               omega_SS[1:] * b_s).sum())
+    K = ((1 / (1 + g_n_SS)) * (omega_SS[:-1] * b_s + imm_rates_SS[1:] *  omega_SS[1:] * b_s).sum())
 
     return K
 
@@ -52,5 +51,3 @@ def get_BQ(b_s, r, params):
     BQ = (1 + r) * (rho_s[:-1] * omega_SS[:-1] * b_s).sum()
 
     return BQ
-
-
