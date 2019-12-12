@@ -8,7 +8,7 @@ population dynamics is rho_s, which has
 been added.
 '''
 
-import upsilonmpy as np
+import numpy as np
 import elliptical_u_est as ellip
 
 
