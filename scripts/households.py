@@ -63,11 +63,11 @@ def FOCs(b_sp1, n_s, *args):
 
 
 
-def get_c(r, w, n_s, b_s, b_sp1):
+def get_c(r, w, n_s, b_s, b_sp1, BQ):
     '''
     Use the budget constraint to solve for consumption
     '''
-    c = w * n_s + (1 + r) * b_s - b_sp1
+    c = w * n_s + (1 + r) * b_s + BQ - b_sp1
 
     return c
 
