@@ -11,9 +11,8 @@ been added.
 import upsilonmpy as np
 import elliptical_u_est as ellip
 
+
 # household functions
-
-
 def FOCs(b_sp1, *params):
     # def FOCs(b_sp1, n_s, *args):
     '''
