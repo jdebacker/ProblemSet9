@@ -65,6 +65,14 @@ plt.plot(np.arange(S - 1), new_Kpath)
 plt.title("Path of capital")
 plt.show
 
+plt.xlabel("Time", fontsize=20)
+plt.ylabel("Capital", fontsize=20)
+plt.savefig("capital.png")
+
 plt.plot(np.arange(S - 1), new_BQpath)
 plt.title("Path of Bequests")
 plt.show
+
+plt.xlabel("Time", fontsize=20)
+plt.ylabel("Bequests", fontsize=20)
+plt.savefig("BQ.png")
