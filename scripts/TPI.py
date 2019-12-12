@@ -24,7 +24,7 @@ def solve_tp(r_path_init, BQ_path_init, params):
         # solve upper right elements before the first full lifetime
         UpMaskb = np.triu(np.ones((T + S, S)), -1)
         for t in range(T + S):
-            foc_args = (beta, sigma, r_path[t:t+S], w_path[t:t+S],    0.0, l_tilde, chi, theta, rho_s)
+            foc_args = (beta, sigma, r_path[t:t+S], w_path[t:t+S], 0.0, l_tilde, chi, theta, rho_s)
             b_sp1_guess = b_sp1_ss
             result = opt.root(hh.FOCs, b_sp1_guess, args=foc_args)
             b_sp1_mat[t:t+S, :] = (UpMaskb * result.x +
@@ -33,7 +33,7 @@ def solve_tp(r_path_init, BQ_path_init, params):
         # solve all full lifetimes
         DiagMaskb = np.eye(S, dtype=bool)
         for t in range(T + S):
-            foc_args = (beta, sigma, r_path[t:t+S], w_path[t:t+S],    0.0, l_tilde, chi, theta, rho_s)
+            foc_args = (beta, sigma, r_path[t:t+S], w_path[t:t+S], 0.0, l_tilde, chi, theta, rho_s)
             b_sp1_guess = b_sp1_ss
             result = opt.root(hh.FOCs, b_sp1_guess, args=foc_args)
             b_sp1_mat[t:t+S, :] = (DiagMaskb * result.x +
