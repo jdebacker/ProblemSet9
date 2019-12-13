@@ -5,7 +5,7 @@ import aggregates as agg
 import households as hh
 
 
-def solve_ss(r_init, w_init, params):
+def solve_ss(r_init, params):
     '''
     Solves for the steady-state equlibrium of the OG model
     '''
@@ -43,12 +43,9 @@ def solve_ss(r_init, w_init, params):
         ss_dist_r = np.absolute(r - r_prime)
         ss_dist_w = np.absolute(w - w_prime)
         print('Iteration = ', ss_iter, ', Distance r = ', ss_dist_r,
-              ', Disrance w = ', ss_dist_w,
               ', r = ', r, ', w = ', w)
         # update r
         r = xi * r_prime + (1 - xi) * r
-        # update w
-        w = xi * w_prime + (1 - xi) * w
         # update iteration counter
         ss_iter += 1
 
