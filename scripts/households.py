@@ -1,9 +1,4 @@
 '''
-<<<<<<< HEAD
-Can someone please take a look at this function and make sure that this accounts for everything in the household's problem?
-I believe this script does account for S-periods, endogenous labor supply, and population dynamics.
-From what I can tell, the only factor that needs to be added to account for population dynamics is rho_s, which has been added.
-=======
 Can someone please take a look at this function and make sure that this
 accounts for everything in the household's problem?
 I believe this script does account for S-periods, endogenous labor supply,
@@ -11,7 +6,6 @@ and population dynamics.
 From what I can tell, the only factor that needs to be added to account for
 population dynamics is rho_s, which has
 been added.
->>>>>>> upstream/master
 '''
 
 import numpy as np
