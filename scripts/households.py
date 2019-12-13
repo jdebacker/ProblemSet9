@@ -9,12 +9,11 @@ been added.
 '''
 
 import numpy as np
-import elliptical_u_est as ellip
 
 
 # household functions
 # FOC for savings
-def FOC_save(c, *params):
+def FOC_save(c, params):
     # def FOCs(b_sp1, n_s, *args):
     '''
     For the S-period problem, we have 2S-1 FOCs corresponding to the savings
@@ -59,7 +58,7 @@ def FOC_save(c, *params):
 
 
 # FOC for labor
-def FOC_labor(c, n_s, *args):
+def FOC_labor(c, n_s, args):
     '''
     Args:
     n_s: The labor supply values for each period. The call to this function
@@ -108,7 +107,7 @@ def get_c(r, w, n_s, b_s, b_sp1, BQ):
     '''
     Use the budget constraint to solve for consumption
     '''
-    c = w * n_s + (1 + r) * b_s - b_sp1
+    c = w * n_s + (1 + r) * b_s + BQ - b_sp1
 
     return c
 
