@@ -9,7 +9,8 @@ def solve_ss(r_init, params):
     '''
     Solves for the steady-state equlibrium of the OG model
     '''
-    beta, sigma, alpha, A, delta, xi, l_tilde, chi, theta, omega_SS, imm_rates_SS, rho_s, S = params
+    (beta, sigma, alpha, A, delta, xi, l_tilde, chi, theta, omega_SS,
+        imm_rates_SS, rho_s, S) = params
     ss_dist = 7.0
     ss_tol = 1e-8
     ss_iter = 0
@@ -20,7 +21,17 @@ def solve_ss(r_init, params):
         # get w
         w = firm.get_w(r, alpha, A, delta)
         # solve HH problem
-        foc_args = (beta, sigma, r, w, 0.0, l_tilde, chi, theta, omega_SS, rho_s)
+        '''
+        Args from the hh module are: (b_init, BQ, rho_s, omega, g_n, beta,
+        sigma, l_tilde, chi, b_ellipse, upsilon, r, w, method)
+
+        This file originally had the following as the args for this function:
+        foc_args = (beta, sigma, r, w, 0.0, l_tilde, chi, theta, omega_SS,
+        rho_s)
+        '''
+        method = 'SS'
+        foc_args = (b_init, BQ, rho_s, omega, g_n, beta, sigma, l_tilde, chi,
+                    b_ellipse, upsilon, r, w, method)
         n_s_guess = np.ones(S)
         b_sp1_guess = np.ones(S-1) * 0.5
         HH_guess = np.append(b_sp1_guess, n_s_guess)
