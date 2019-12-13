@@ -1,15 +1,15 @@
 '''
 Can someone please take a look at this function and make sure that this
 accounts for everything in the household's problem?
-I believe this script does account for S-periods, endogenous labor supply,
-and population dynamics.
-From what I can tell, the only factor that needs to be added to account for
-population dynamics is rho_s, which has
-been added.
+I believe this script does account for S-periods, endogenous labor
+supply, and population dynamics.
+From what I can tell, the only factor that needs to be added to account
+for population dynamics is rho_s, which has been added.
 '''
 
 import numpy as np
-
+import elliptical_u_est as ellip
+import aggregates as agg
 
 # household functions
 # FOC for savings
@@ -47,7 +47,7 @@ def FOC_save(c, params):
     foc_errors_b: A list where the first S-1 values are b2, b3, ..., bS
     '''
 
-    rho_s, beta, sigma, r, w = params
+    rho_s, beta, sigma, r = params
 
     mu_c = mu_cons(c, sigma)
     lhs = mu_c
@@ -74,7 +74,7 @@ def FOC_labor(c, n_s, args):
     Returns:
     foc_errors_n: A list of n2, n3, ..., nS
     '''
-    sigma, r, w, l_tilde, chi, b_ellipse, upsilon = args
+    sigma, w, l_tilde, chi, b_ellipse, upsilon = args
     mu_c = mu_cons(c, sigma)
     mu_n = mu_labor(n_s, l_tilde, chi, b_ellipse, upsilon)
 
@@ -88,15 +88,19 @@ def FOC_labor(c, n_s, args):
 
 # Solve FOC_save and FOC_labor together
 def FOCs(b_sp1, n_s, *args):
-    (b_init, BQ, rho_s, beta, sigma, l_tilde, chi, b_ellipse, upsilon,
-     r, w) = args
+    (b_init, BQ, rho_s, omega, g_n, beta, sigma, l_tilde, chi,
+     b_ellipse, upsilon, r, w, method) = args
     b_s = np.append(b_init, b_sp1)
     b_sp1 = np.append(b_sp1, 0.0)
-
+    if method == 'SS':
+        # if method is SS, solve for BQ, else (case of TPI), use BQ
+        # as guessed in the "outer loop"
+        BQ_params = (omega, g_n, rho_s)
+        BQ = agg.get_BQ(b_s, r, BQ_params, method)
     c = get_c(r, w, n_s, b_s, b_sp1, BQ)
-    b_args = (rho_s, beta, sigma, r, w)
+    b_args = (rho_s, beta, sigma, r)
     b_errors = FOC_save(c, b_args)
-    n_args = (sigma, r, w, l_tilde, chi, b_ellipse, upsilon)
+    n_args = (sigma, w, l_tilde, chi, b_ellipse, upsilon)
     n_errors = FOC_labor(c, n_s, n_args)
     errors = np.append(b_errors, n_errors)
 
