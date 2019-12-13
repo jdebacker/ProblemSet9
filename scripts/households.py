@@ -48,11 +48,12 @@ def FOC_save(c, *params):
     foc_errors_b: A list where the first S-1 values are b2, b3, ..., bS
     '''
 
-    rho_s, beta, sigma, b_init, n, r_path, w = params
+    rho_s, beta, sigma, r, w = params
 
     mu_c = mu_cons(c, sigma)
-    foc_errors_b = (mu_c[:-1] - beta * (1 + r_path[1:]) *
-                    (1 - rho_s[:-1]) * mu_c[1:])
+    lhs = mu_c
+    rhs = beta * (1 + r) * (1 - rho_s) * mu_c
+    foc_errors_b = lhs[:-1] - rhs[1:]
 
     return foc_errors_b
 
