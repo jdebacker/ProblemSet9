@@ -59,7 +59,7 @@ def FOC_save(c, *params):
 
 
 # FOC for labor
-def FOC_labor(n_s, *args):
+def FOC_labor(c, n_s, *args):
     '''
     Args:
     n_s: The labor supply values for each period. The call to this function
@@ -75,17 +75,9 @@ def FOC_labor(n_s, *args):
     Returns:
     foc_errors_n: A list of n2, n3, ..., nS
     '''
-    beta, sigma, r, w, b_init, b_sp1, l_tilde, chi, theta, rho_s = args
-    c = get_c(r, w, n_s, b_s, b_sp1)
+    sigma, r, w, l_tilde, chi, b_ellipse, upsilon = args
     mu_c = mu_cons(c, sigma)
-    mu_n = mu_labor(n_s, l_tilde, chi, theta)
-
-    # First get the Euler equations defined by Equation (4.10) - S-1 of these
-    # lhs_euler_b = mu_c
-    # rhs_euler_b = beta * (1+r) * mu_c
-    # foc_errors_b = lhs_euler_b[:-1] - rhs_euler_b[1:]
-    # The above line doesn't need to be changed since it works for a general S
-    # as well (writing out the vectors helps to see this)
+    mu_n = mu_labor(n_s, l_tilde, chi, b_ellipse, upsilon)
 
     # Next get the Euler equations defined by (4.9) - S of these
     lhs_euler_n = w * mu_c
@@ -95,15 +87,18 @@ def FOC_labor(n_s, *args):
     return foc_errors_n
 
 
-# Solve FOC_save and FOC_labor
+# Solve FOC_save and FOC_labor together
 def FOCs(b_sp1, n_s, *args):
-    BQpath, rho_s, beta, sigma, b_init, n, r_path, w = args
+    (b_init, BQ, rho_s, beta, sigma, l_tilde, chi, b_ellipse, upsilon,
+     r, w) = args
     b_s = np.append(b_init, b_sp1)
     b_sp1 = np.append(b_sp1, 0.0)
 
-    c = get_c(r_path[0], w, n_s, b_s, b_sp1)
-    b_errors = FOC_save(c, args)
-    n_errors = FOC_labor(c, args)
+    c = get_c(r, w, n_s, b_s, b_sp1, BQ)
+    b_args = (rho_s, beta, sigma, r, w)
+    b_errors = FOC_save(c, b_args)
+    n_args = (sigma, r, w, l_tilde, chi, b_ellipse, upsilon)
+    n_errors = FOC_labor(c, n_s, n_args)
     errors = np.append(b_errors, n_errors)
 
     return errors
