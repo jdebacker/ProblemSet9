@@ -1,5 +1,6 @@
 # firm functions
 
+
 def get_r(L, K, alpha, A, delta):
     '''
     The interest rate implied by the firm FOC for the choice of capital
@@ -11,8 +12,9 @@ def get_r(L, K, alpha, A, delta):
 
 def get_w(r, alpha, A, delta):
     '''
-    The wage rate implied by the firm FOC for the choice of labor
+    The wage rate implied by the interest rate
     '''
-    w = (1 - alpha) * A * (K/L)**alpha
+    w = ((1 - alpha) * A * ((r + delta) / (alpha * A)) **
+         (alpha / (alpha - 1)))
 
     return w

@@ -1,56 +1,60 @@
 # market clearning conditions
-
-
 import numpy as np
 
 
-def get_L(n, omega_SS):
-    L = (omega_SS * n).sum()
+def get_L(n_s, omega_SS):
+    '''
+    Returns labor (a scalar)
+    '''
+    # indexing from 1 since the summation starts at E + 1, not E
+    L = (omega_SS[1:] * n_s[1:]).sum()
 
     return L
 
 
-def get_C(c, omega_SS):
-    C = (omega_SS * c).sum()
-
-    return C
-
-
-def get_Y(K, L, params):
-    alpha, A = params
-    Y = A * (K ** alpha) * (L ** (1 - alpha))
-
-    return Y
-
-
-def get_I(K, Kp1, b, params):
-    (delta, g_n_SS, omega_SS, imm_rates_SS, g_y) = params
-    capital_flow = ((1 + g_n_SS) * np.exp(g_y) * (imm_rates_SS[1:] *
-                    omega_SS[1:] * b).sum())
-
-    I = ((1 + g_n_SS) * np.exp(g_y) * Kp1 - (1.0 - delta) * K -
-         capital_flow)
-
-    return I
-
-
-def get_K(b, params):
+def get_K(b_s, params):
     '''
-    b = (S-1,) vector of savings
+    b = vector of savings of length S - 1
+
+    Returns capital (a scalar)
     '''
+
     (g_n_SS, omega_SS, imm_rates_SS) = params
-    K = ((1 / (1 + g_n_SS)) * (omega_SS[:-1] * b + imm_rates_SS[1:] *
-                               omega_SS[1:] * b).sum())
+    K = ((1 / (1 + g_n_SS)) * (omega_SS[:-1] * b_s + imm_rates_SS[1:] *
+                               omega_SS[1:] * b_s).sum())
 
     return K
 
 
+def get_C(c, omega_SS):
+    # indexing from 1 since the summation starts at E + 1, not E
+    C = (omega_SS[1:] * c[1:]).sum()
 
-def get_BQ(b, r, params):
-    (g_n_SS, omega_SS, rho_s) = params
-    BQ = (((1 + r) / (1 + g_n_SS)) * (rho_s[:-1] * omega_SS[:-1] *
-                                      b).sum())
+    return C
+
+
+def get_I(K, K_sp1, delta, g_n_SS):
+    # Need to think about how we're getting Kp1 - something analogous
+    # to what we did for b_sp_1 in class I presume
+    I = ((1 + g_n_SS) * K_sp1) - ((1 - delta) * K)
+    return I
+
+
+def get_Y(b_s, C, I, omega_SS, imm_rates_SS):
+    '''
+    Returns total goods consumed (a scalar)
+    '''
+
+    Y = C + I - (imm_rates_SS[1:] * omega_SS[1:] * b_s).sum()
+
+    return Y
+
+
+def get_BQ(b_sp1, r, params, method):
+    (omega, g_n, rho_s) = params
+    if method == 'SS':
+        BQ = ((1 + r) / (1 + g_n)) * (rho_s * omega * b_sp1).sum()
+    elif method == 'TPI':
+        BQ = ((1 + r) / (1 + g_n)) * (rho_s * omega * b_sp1).sum(axis=1)
 
     return BQ
-
-
