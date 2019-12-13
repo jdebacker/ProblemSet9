@@ -25,14 +25,11 @@ def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, params):
         BQ_11 = agg.get_BQ(b_11, r_11, BQ_params)
         K_11 = agg.get_K(b_11, K_params)
         BQpath_init = np.zeros(T + S - 1)
-        Kpath_init = np.zeros(T + S - 1)
         BQpath_init[:T] = np.linspace(BQ_11, BQ_ss, T)
-        Kpath_init[:T] = np.linspace(K_11, K_ss, T)
         BQpath_init[T:] = BQ_ss
-        Kpath_init[T:] = K_ss
         r_11 = firm.get_r(K_11, L_ss, r_params)
-        rpath = firm.get_r(Kpath_init, L_ss, r_params)
-        wpath = firm.get_w(Kpath_init, L_ss, w_params)
+        r_path = firm.get_r(L_ss, r_params)
+        w_path = firm.get_w(L_ss, w_params)
         bmat = np.zeros((S - 1, T + S - 1))
         bmat[:, 0] = b_1
 
@@ -40,7 +37,7 @@ def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, params):
         for p in range(2, S):
             b_guess = np.diagonal(bmat[S - p:, :p - 1])
             b_init = bmat[S - p - 1, 0]
-            b_params = (b_init, n[-p:], rpath[:p], wpath[:p],
+            b_params = (b_init, n[-p:], r_path[:p], w_path[:p],
                         BQpath_init[:p], rho_s[-p:], beta, sigma)
             results_bp = opt.root(hh.FOCs, b_guess, args=(b_params))
             b_solve_p = results_bp.x
@@ -50,8 +47,8 @@ def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, params):
         for t in range(1, T + 1):
             b_guess = np.diagonal(bmat[:, t - 1:t + S - 2])
             b_init = 0.0
-            b_params = (b_init, n, rpath[t - 1:t + S - 1],
-                        wpath[t - 1:t + S - 1], BQpath_init[t - 1:t + S - 1],
+            b_params = (b_init, n, r_path[t - 1:t + S - 1],
+                        w_path[t - 1:t + S - 1], BQpath_init[t - 1:t + S - 1],
                         rho_s, beta, sigma)
             results_bt = opt.root(hh.FOCs, b_guess, args=(b_params))
             b_solve_t = results_bt.x
@@ -69,13 +66,10 @@ def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, params):
         new_BQpath = np.zeros(T)
         new_BQpath[0] = BQ_1
         new_BQpath[1:] = \
-            ((1 + rpath[1:T]) / (rho_s[:-1]) *
+            ((1 + r_path[1:T]) / (rho_s[:-1]) *
                 omega_path_S[:T - 1, :-1] * bmat[:, 1:T].T).sum(axis=1)
 
-        KBQ_init = np.append(Kpath_init[:T], BQpath_init[:T])
-        Kpath_init[:T] = xi * new_Kpath[:T] + (1 - xi) * Kpath_init[:T]
-        new_KBQ = np.append(new_Kpath[:T], new_BQpath[:T])
-        dist = ((KBQ_init - new_KBQ) ** 2).sum()
+        dist = ((BQ_init - new_BQ) ** 2).sum()
         BQpath_init[:T] = xi * new_BQpath[:T] + (1 - xi) * BQpath_init[:T]
         # update iteration counter
         tpi_iter += 1
@@ -85,4 +79,4 @@ def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, params):
     else:
         print('The time path did not solve.')
 
-    return new_KBQ[:T]
+    return [new_Kpath, new_BQpath]
