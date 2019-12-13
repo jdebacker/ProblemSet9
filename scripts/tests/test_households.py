@@ -15,7 +15,7 @@ def test_FOC_labor():
     chi = 0.5
     b_ellipse = 0.47
     upsilon = 1.2
-    n_args = (sigma, r, w, l_tilde, chi, b_ellipse, upsilon)
+    n_args = (sigma, r, l_tilde, chi, b_ellipse, upsilon)
     expected_error = 1.881986044
     test_error = households.FOC_labor(c, n_s, n_args)
 
