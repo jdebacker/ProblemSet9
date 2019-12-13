@@ -50,8 +50,11 @@ def get_Y(b_s, C, I, omega_SS, imm_rates_SS):
     return Y
 
 
-def get_BQ(b_s, r, params):
-    (omega_SS, rho_s) = params
-    BQ = (1 + r) * (rho_s[:-1] * omega_SS[:-1] * b_s).sum()
+def get_BQ(b_sp1, r, params, method):
+    (omega, g_n, rho_s) = params
+    if method == 'SS':
+        BQ = ((1 + r) / (1 + g_n)) * (rho_s * omega * b_sp1).sum()
+    elif method == 'TPI':
+        BQ = ((1 + r) / (1 + g_n)) * (rho_s * omega * b_sp1).sum(axis=1)
 
     return BQ
