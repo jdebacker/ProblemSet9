@@ -5,7 +5,7 @@ import aggregates as agg
 import households as hh
 
 
-def solve_ss(r_init, *params):
+def solve_ss(r_init, params):
     '''
     Solves for the steady-state equlibrium of the OG model
     '''
@@ -16,7 +16,7 @@ def solve_ss(r_init, *params):
     ss_max_iter = 300
     r = r_init
     while (ss_dist > ss_tol) & (ss_iter < ss_max_iter):
-        
+
         # get w
         w = firm.get_w(r, alpha, A, delta)
         # solve HH problem
