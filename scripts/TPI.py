@@ -5,7 +5,7 @@ import households as hh
 import firm
 
 
-def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, omega_SS, params):
+def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, omega_SS, omega_path_S, params):
     '''
     Solves for the time path equilibrium using TPI
     '''
@@ -65,14 +65,14 @@ def solve_tp(g_n_path, omega_S_preTP, rho_s, imm_rates_path, omega_SS, params):
                                     bmat[:, t:t + S - 1])
 
         new_Kpath = np.zeros(T)
-        new_Kpath[0] = K_1
+        new_Kpath[0] = K_11
         new_Kpath[1:] = \
             (1 / (omega_path_S[:T - 1, :-1]) *
                 bmat[:, 1:T].T +
                 imm_rates_path[:T - 1, 1:] *
                 omega_path_S[:T - 1, 1:] * bmat[:, 1:T].T).sum(axis=1)
         new_BQpath = np.zeros(T)
-        new_BQpath[0] = BQ_1
+        new_BQpath[0] = BQ_11
         new_BQpath[1:] = \
             ((1 + r_path[1:T]) / (rho_s[:-1]) *
                 omega_path_S[:T - 1, :-1] * bmat[:, 1:T].T).sum(axis=1)
