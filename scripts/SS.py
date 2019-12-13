@@ -43,4 +43,4 @@ def solve_ss(r_init, params):
         # update iteration counter
         ss_iter += 1
 
-    return r, b_sp1, euler_errors
+    return ss_iter, r, w, b_sp1, euler_errors
