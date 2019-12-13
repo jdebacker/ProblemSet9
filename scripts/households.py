@@ -14,7 +14,7 @@ import elliptical_u_est as ellip
 
 # household functions
 # FOC for savings
-def FOC_save(b_sp1, *params):
+def FOC_save(c, *params):
     # def FOCs(b_sp1, n_s, *args):
     '''
     For the S-period problem, we have 2S-1 FOCs corresponding to the savings
@@ -48,15 +48,8 @@ def FOC_save(b_sp1, *params):
     foc_errors_b: A list where the first S-1 values are b2, b3, ..., bS
     '''
 
-    BQpath, rho_s, beta, sigma, b_init, n, r_path, w = params
-    # rpath = length p, n = length p
-    # p = upsilonmber of periods left in life time
-    # wpath = length p, b_sp1 = length p-1
+    rho_s, beta, sigma, b_init, n, r_path, w = params
 
-    b_s = np.append(b_init, b_sp1)
-    b_sp1 = np.append(b_sp1, 0.0)
-
-    c = get_c(r_path[0], w, n, b_s, b_sp1)
     mu_c = mu_cons(c, sigma)
     foc_errors_b = (mu_c[:-1] - beta * (1 + r_path[1:]) *
                     (1 - rho_s[:-1]) * mu_c[1:])
@@ -115,10 +108,10 @@ def FOCs(b_sp1, n_s, *args):
     n_errors = FOC_labor(c, args)
     errors = np.append(b_errors, n_errors)
 
-    return(errors)
+    return errors
 
 
-def get_c(r, w, n_s, b_s, b_sp1):
+def get_c(r, w, n_s, b_s, b_sp1, BQ):
     '''
     Use the budget constraint to solve for consumption
     '''
