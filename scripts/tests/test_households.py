@@ -101,7 +101,8 @@ def test_FOCs():
     upsilon = 1.2
     r = 0.05
     w = 1.2
-    foc_args = (b_init, BQ, rho_s, beta, sigma, l_tilde, chi,
+    omega_SS = np.ones(n_s.shape[0])
+    foc_args = (b_init, BQ, rho_s, omega_SS, beta, sigma, l_tilde, chi,
                 b_ellipse, upsilon, r, w)
     expected_errors = np.array([0.734748532, 1.881986044, 0.990687805])
 
