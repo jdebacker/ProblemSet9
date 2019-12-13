@@ -76,9 +76,6 @@ def FOC_labor(n_s, *args):
     foc_errors_n: A list of n2, n3, ..., nS
     '''
     beta, sigma, r, w, b_init, b_sp1, l_tilde, chi, theta, rho_s = args
-    # When working on SS.py, note that b_sp1_guess is now of length S-1
-    b_s = np.append(b_init, b_sp1)
-    b_sp1 = np.append(b_sp1, 0.0)
     c = get_c(r, w, n_s, b_s, b_sp1)
     mu_c = mu_cons(c, sigma)
     mu_n = mu_labor(n_s, l_tilde, chi, theta)
@@ -133,15 +130,12 @@ def mu_cons(c, sigma):
     return mu_c
 
 
-def mu_labor(n_s, l_tilde, chi, theta):
+def mu_labor(n_s, l_tilde, chi, b_ellipse, upsilon):
     '''
     Computes marginal utility with respect to labor supply
     '''
-
-    b_ellipse, upsilon = ellip.estimation(theta, l_tilde)
-    # b_ellipse is the constant defined in Equation (4.9) - has nothing to do
-    # with savings
-    mu_n = chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (upsilon - 1)
-    * (1 - (n_s / l_tilde) ** upsilon) ** ((1 - upsilon) / upsilon)
+    mu_n = (
+        chi * (b_ellipse / l_tilde) * (n_s / l_tilde) ** (upsilon - 1)
+        * (1 - (n_s / l_tilde) ** upsilon) ** ((1 - upsilon) / upsilon))
 
     return mu_n
