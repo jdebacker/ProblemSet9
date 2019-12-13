@@ -48,7 +48,7 @@ def FOC_save(b_sp1, *params):
     foc_errors_b: A list where the first S-1 values are b2, b3, ..., bS
     '''
 
-    BQpath, rho_s, beta, sigma, b_init, n, rpath, w = params
+    BQpath, rho_s, beta, sigma, b_init, n, r_path, w = params
     # rpath = length p, n = length p
     # p = upsilonmber of periods left in life time
     # wpath = length p, b_sp1 = length p-1
@@ -56,9 +56,9 @@ def FOC_save(b_sp1, *params):
     b_s = np.append(b_init, b_sp1)
     b_sp1 = np.append(b_sp1, 0.0)
 
-    c = get_c(rpath[0], w, n, b_s, b_sp1)
+    c = get_c(r_path[0], w, n, b_s, b_sp1)
     mu_c = mu_cons(c, sigma)
-    foc_errors_b = (mu_c[:-1] - beta * (1 + rpath[1:]) *
+    foc_errors_b = (mu_c[:-1] - beta * (1 + r_path[1:]) *
                     (1 - rho_s[:-1]) * mu_c[1:])
 
     return foc_errors_b
@@ -106,11 +106,11 @@ def FOC_labor(n_s, *args):
 
 # Solve FOC_save and FOC_labor
 def FOCs(b_sp1, n_s, *args):
-    BQpath, rho_s, beta, sigma, b_init, n, rpath, w = args
+    BQpath, rho_s, beta, sigma, b_init, n, r_path, w = args
     b_s = np.append(b_init, b_sp1)
     b_sp1 = np.append(b_sp1, 0.0)
 
-    c = get_c(rpath[0], w, n_s, b_s, b_sp1)
+    c = get_c(r_path[0], w, n_s, b_s, b_sp1)
     b_errors = FOC_save(c, args)
     n_errors = FOC_labor(c, args)
     errors = np.append(b_errors, n_errors)
