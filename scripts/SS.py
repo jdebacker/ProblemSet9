@@ -5,13 +5,12 @@ import aggregates as agg
 import households as hh
 
 
-def solve_ss(r_init, params):
+def solve_ss(r_init, b_init, params):
     '''
     Solves for the steady-state equlibrium of the OG model
     '''
     (beta, sigma, alpha, A, delta, xi, l_tilde, chi, theta, omega_SS,
-        imm_rates_SS, rho_s, S, b_sp1, b_ellipse, upsilon, b_init, g_n) = \
-        params
+        imm_rates_SS, rho_s, S, b_sp1, b_ellipse, upsilon, g_n) = params
     ss_dist = 7.0
     ss_tol = 1e-8
     ss_iter = 0
