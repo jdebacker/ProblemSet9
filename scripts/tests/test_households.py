@@ -102,8 +102,10 @@ def test_FOCs():
     r = 0.05
     w = 1.2
     omega_SS = np.ones(n_s.shape[0])
-    foc_args = (b_init, BQ, rho_s, omega_SS, beta, sigma, l_tilde, chi,
-                b_ellipse, upsilon, r, w)
+    g_n = 0.0
+    method = 'TPI'
+    foc_args = (b_init, BQ, rho_s, omega_SS, g_n, beta, sigma, l_tilde, chi,
+                b_ellipse, upsilon, r, w, method)
     expected_errors = np.array([0.734748532, 1.881986044, 0.990687805])
 
     test_error = households.FOCs(b_sp1, n_s, *foc_args)
